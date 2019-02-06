@@ -37,7 +37,7 @@ export default class Post extends Component {
               />
               <figcaption className="wp-caption-text">Boat</figcaption>
             </figure>
-            {excerpt.rendered}
+            <div dangerouslySetInnerHTML={{ __html: excerpt.rendered }} />
           </div>
 
           <footer className="entry-footer">
