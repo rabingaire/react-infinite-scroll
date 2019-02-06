@@ -9,7 +9,7 @@ export default class Post extends Component {
       guid,
       title,
       excerpt,
-      _custom_data: { author, date, categories, tags }
+      _custom_data: { author, date, categories, tags, featured_image }
     } = this.props.post;
 
     return (
@@ -27,16 +27,20 @@ export default class Post extends Component {
           </header>
 
           <div className="entry-content">
-            <figure style={{ width: 435 }} className="wp-caption alignnone">
-              <img
-                className="wp-image-59"
-                alt="Boat"
-                src="https://wpdotorg.files.wordpress.com/2008/11/boat.jpg"
-                width="435"
-                height="288"
-              />
-              <figcaption className="wp-caption-text">Boat</figcaption>
-            </figure>
+            {featured_image && (
+              <figure style={{ width: 435 }} className="wp-caption alignnone">
+                <img
+                  className="wp-image-59"
+                  alt="Boat"
+                  src={featured_image.url}
+                  width="435"
+                  height="288"
+                />
+                <figcaption className="wp-caption-text">
+                  {featured_image.caption}
+                </figcaption>
+              </figure>
+            )}
             <div dangerouslySetInnerHTML={{ __html: excerpt.rendered }} />
           </div>
 
