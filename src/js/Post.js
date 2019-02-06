@@ -5,13 +5,13 @@ export default class Post extends Component {
   render() {
     const {
       id,
-      date,
-      modified,
       format,
       guid,
       title,
-      excerpt
+      excerpt,
+      _custom_data: { author, date, categories, tags }
     } = this.props.post;
+
     return (
       <div>
         <article
@@ -58,8 +58,8 @@ export default class Post extends Component {
               </svg>
               <span className="screen-reader-text">Posted by</span>
               <span className="author vcard">
-                <a className="url fn n" href="https://wp-themes.com/?author=1">
-                  Theme Admin
+                <a className="url fn n" href={author.url}>
+                  {author.name}
                 </a>
               </span>
             </span>
@@ -89,53 +89,58 @@ export default class Post extends Component {
                 <time className="entry-date published" dateTime={date}>
                   {date}
                 </time>
-                <time className="updated" dateTime={modified}>
-                  {modified}
-                </time>
               </a>
             </span>
-            <span className="cat-links">
-              <svg
-                className="svg-icon"
-                width="16"
-                height="16"
-                aria-hidden="true"
-                role="img"
-                focusable="false"
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 24 24"
-              >
-                <path d="M10 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2h-8l-2-2z" />
-                <path d="M0 0h24v24H0z" fill="none" />
-              </svg>
-              <span className="screen-reader-text">Posted in</span>
-              <a href="https://wp-themes.com/?cat=1" rel="category">
-                Uncategorized
-              </a>
-            </span>
-            <span className="tags-links">
-              <svg
-                className="svg-icon"
-                width="16"
-                height="16"
-                aria-hidden="true"
-                role="img"
-                focusable="false"
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 24 24"
-              >
-                <path d="M21.41 11.58l-9-9C12.05 2.22 11.55 2 11 2H4c-1.1 0-2 .9-2 2v7c0 .55.22 1.05.59 1.42l9 9c.36.36.86.58 1.41.58.55 0 1.05-.22 1.41-.59l7-7c.37-.36.59-.86.59-1.41 0-.55-.23-1.06-.59-1.42zM5.5 7C4.67 7 4 6.33 4 5.5S4.67 4 5.5 4 7 4.67 7 5.5 6.33 7 5.5 7z" />
-                <path d="M0 0h24v24H0z" fill="none" />
-              </svg>
-              <span className="screen-reader-text">Tags: </span>
-              <a href="https://wp-themes.com/?tag=boat" rel="tag">
-                boat
-              </a>
-              ,{' '}
-              <a href="https://wp-themes.com/?tag=lake" rel="tag">
-                lake
-              </a>
-            </span>
+            {categories && (
+              <span className="cat-links">
+                <svg
+                  className="svg-icon"
+                  width="16"
+                  height="16"
+                  aria-hidden="true"
+                  role="img"
+                  focusable="false"
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 24 24"
+                >
+                  <path d="M10 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2h-8l-2-2z" />
+                  <path d="M0 0h24v24H0z" fill="none" />
+                </svg>
+                <span className="screen-reader-text">Posted in</span>
+                {categories
+                  .map(categorie => (
+                    <a key={categorie.url} href={categorie.url} rel="category">
+                      {categorie.name}
+                    </a>
+                  ))
+                  .reduce((prev, curr) => [prev, ', ', curr])}
+              </span>
+            )}
+            {tags && (
+              <span className="tags-links">
+                <svg
+                  className="svg-icon"
+                  width="16"
+                  height="16"
+                  aria-hidden="true"
+                  role="img"
+                  focusable="false"
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 24 24"
+                >
+                  <path d="M21.41 11.58l-9-9C12.05 2.22 11.55 2 11 2H4c-1.1 0-2 .9-2 2v7c0 .55.22 1.05.59 1.42l9 9c.36.36.86.58 1.41.58.55 0 1.05-.22 1.41-.59l7-7c.37-.36.59-.86.59-1.41 0-.55-.23-1.06-.59-1.42zM5.5 7C4.67 7 4 6.33 4 5.5S4.67 4 5.5 4 7 4.67 7 5.5 6.33 7 5.5 7z" />
+                  <path d="M0 0h24v24H0z" fill="none" />
+                </svg>
+                <span className="screen-reader-text">Tags: </span>
+                {tags
+                  .map(tag => (
+                    <a key={tag.url} href={tag.url} rel="tag">
+                      {tag.name}
+                    </a>
+                  ))
+                  .reduce((prev, curr) => [prev, ', ', curr])}
+              </span>
+            )}
           </footer>
         </article>
       </div>
